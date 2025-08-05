@@ -102,7 +102,18 @@
         .header-scrolled {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--glass-border);
+            padding: 0.8rem 0;
+        }
+
+        @supports not (backdrop-filter: blur(10px)) {
+            .header-scrolled {
+                background: rgba(255, 255, 255, 0.95);
+            }
+            [data-theme="dark"] .header-scrolled {
+                background: rgba(0, 0, 0, 0.95);
+            }
         }
 
         nav {
@@ -540,6 +551,68 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.13);
         }
 
+        /* File Upload Styling */
+        .file-upload-container {
+            position: relative;
+            overflow: hidden;
+            background: var(--glass-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px dashed var(--primary-color);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-container:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .file-upload-container input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            transform-origin: center;
+            animation: bounce 2s infinite;
+        }
+
+        .file-upload-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .file-name {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            word-break: break-all;
+            display: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
         /* Footer */
         footer {
             background: var(--bg-secondary);
@@ -582,9 +655,12 @@
             right: -400px;
             transform: translateY(-50%);
             width: 350px;
+            max-width: 90vw;
             height: 80vh;
+            max-height: 90vh;
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2rem;
@@ -595,6 +671,32 @@
 
         .admin-panel.active {
             right: 20px;
+        }
+
+        @media (max-width: 576px) {
+            .admin-panel {
+                top: auto;
+                bottom: -100%;
+                right: 0;
+                transform: none;
+                width: 100%;
+                height: 85vh;
+                border-radius: 20px 20px 0 0;
+                transition: bottom 0.3s ease;
+            }
+            .admin-panel.active {
+                right: 0;
+                bottom: 0;
+            }
+            .admin-toggle {
+                bottom: 20px;
+                top: auto;
+                transform: none;
+                right: 20px;
+            }
+            .admin-toggle:hover {
+                transform: scale(1.1);
+            }
         }
 
         .admin-toggle {
@@ -650,15 +752,50 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 900px) {
-            nav {
-                flex-direction: row;
-                gap: 1rem;
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 2rem;
             }
-            .logo {
-                font-size: 1.2rem;
+            .hero-content {
+                gap: 2rem;
+            }
+            .profile-image-glow-container {
+                width: 350px;
+                height: 350px;
+            }
+            .profile-img {
+                max-width: 350px;
+                height: 350px;
             }
         }
+
+        @media (max-width: 992px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .profile-image {
+                order: -1;
+            }
+            .cta-buttons {
+                justify-content: center;
+            }
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -687,20 +824,106 @@
                 left: 0;
                 width: 100vw;
                 background: var(--glass-bg);
+                backdrop-filter: blur(10px);
                 z-index: 1002;
-                padding: 2rem 0;
+                padding: 1.5rem 0;
                 box-shadow: 0 8px 32px rgba(99,102,241,0.13);
                 border-bottom: 1px solid var(--glass-border);
                 align-items: center;
-                gap: 2rem;
+                gap: 1.5rem;
+            }
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .hero-text .subtitle {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .profile-image-glow-container {
+                width: 280px;
+                height: 280px;
+            }
+            .profile-img {
+                max-width: 280px;
+                height: 280px;
+            }
+            .experience-timeline {
+                padding-left: 1rem;
+            }
+            .experience-item {
+                padding: 1.5rem;
+            }
+            .experience-item::before {
+                left: -2.5rem;
             }
         }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            .hero-text .subtitle {
+                font-size: 1.1rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .profile-image-glow-container {
+                width: 240px;
+                height: 240px;
+            }
+            .profile-img {
+                max-width: 240px;
+                height: 240px;
+            }
+            .stat-card {
+                padding: 1rem;
+            }
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .contact-icon {
+                margin: 0 auto;
+            }
+            .file-upload-container {
+                padding: 0.8rem;
+            }
+            .social-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
         @media (min-width: 769px) {
             .nav-toggle {
                 display: none;
             }
             .nav-links.mobile {
                 display: none !important;
+            }
+        }
+
+        @media (hover: none) {
+            .glass:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            .skill-tag:hover {
+                transform: none;
+            }
+            .project-card:hover {
+                transform: none;
             }
         }
 
@@ -866,7 +1089,7 @@
                     </div>
                     <div class="stat-card glass">
                         <div class="stat-number">1</div>
-                        <div class="stat-label">Internship</div>
+                        <div class="stat-label">Experience</div>
                     </div>
                     <div class="stat-card glass">
                         <div class="stat-number">3</div>
@@ -974,45 +1197,68 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
-    <section id="experience" class="fade-in">
-        <div class="container">
-            <h2 class="section-title">Experience</h2>
-            <div class="experience-timeline">
-                <div class="experience-item glass">
-                    <h3>Python Backend Developer Intern</h3>
-                    <div class="experience-meta">Palle Technology | May 2024 - August 2024</div>
-                    <h4>Analyzing Social Media</h4>
-                    <p> 
-                        <li>Developed a real-time sentiment-aware product recommendation system using social media data.</li> 
-                        <li>Collected and preprocessed text data from platforms like Twitter and Reddit using APIs and web scraping.</li>
-                        <li>Applied NLP techniques to extract sentiment from user-generated content (tweets, posts, comments).</li> 
-                        <li>Implemented sentiment classification models (Naive Bayes, SVM, RNN) using Scikit-learn and NLTK/VADER.</li> 
-                        <li>Integrated sentiment insights into a recommendation engine for dynamic and personalized product suggestions.</li>
-                         <li>Fine-tuned models with labeled datasets to enhance sentiment prediction accuracy.</li> 
-                         <li>Designed the system for real-time processing and performance optimization.</li> 
-                         <li>Enabled recommendations to adapt to live trends and public opinions in real time.</li> </p>
-                    </div>
-                <div class="experience-item glass">
-                    <h3>Python Backend Developer</h3>
-                    <div class="experience-meta">KIXR Technologies, Bangalore | June 2025 – Present</div>
-                    
-                        <h4>Tours And Travels</h4>
-                        <p>
-                        <li>Developed a fully functional WhatsApp-based travel assistant chatbot using Python.</li>
-                        <li>Engineered backend services for booking flights, buses, hotels, and tour packages — all via conversational flow.</li>
-                        <li>Integrated real-time features such as booking status tracking and tour recommendations.</li>
-                        <li>Leveraged LLM (Large Language Model) technologies to enhance user interaction, enabling the bot to understand natural language travel queries.</li>
-                        <li>Designed and implemented REST APIs for communication between the chatbot, external travel APIs, and backend systems.</li>
-                        <li>Managed the entire project lifecycle including development, deployment, and testing — without relying on external frontend or UX teams.</li>
-                        <li>Ensured robustness, scalability, and high availability of the chatbot backend.</li>
-                        </p>
-                    
-                    <div style="font-size:0.98em; color:var(--primary-color); font-weight:500;">Technologies Used: Python, Flask, REST APIs, WhatsApp Cloud API, LangChain/OpenAI (LLM), PostgreSQL, Git, AWS.</div>
-                </div>
-            </div>
+<section id="experience" class="fade-in">
+  <div class="container">
+    <h2 class="section-title">Experience</h2>
+    <div class="experience-timeline">
+
+      <!-- PALLE TECHNOLOGY -->
+      <div class="experience-item glass">
+        <h3>Python Backend Developer Intern</h3>
+        <div class="experience-meta">Palle Technology | May 2024 – August 2024</div>
+        <h4>Analyzing Social Media</h4>
+        <ul>
+          <li>Developed a real-time sentiment-aware product recommendation system using social media data.</li>
+          <li>Collected and preprocessed large-scale text data from Twitter and Reddit using APIs and custom scrapers.</li>
+          <li>Applied sentiment analysis using Naive Bayes, SVM, and RNN models with Scikit-learn and NLTK.</li>
+          <li>Built a recommendation engine that suggested relevant products based on user emotion and trends.</li>
+          <li>Designed for real-time response, auto-trending updates, and improved targeting accuracy by 30%.</li>
+        </ul>
+      </div>
+
+      <!-- KIXR TECHNOLOGIES -->
+      <div class="experience-item glass">
+        <h3>Python Backend Developer</h3>
+        <div class="experience-meta">KIXR Technologies, Bangalore | June 2025 – November 2025</div>
+
+        <!-- Project 1 -->
+        <h4>Tours and Travels Assistant Chatbot (May-June 2025)</h4>
+        <ul>
+          <li>Developed a WhatsApp-based AI travel assistant to automate bookings for flights, buses, hotels, and packages.</li>
+          <li>Integrated multiple third-party travel APIs and designed backend workflows using Flask and PostgreSQL.</li>
+          <li>Used LangChain and OpenAI (LLMs) to handle user intent and contextual travel queries in real-time.</li>
+          <li>Added dynamic tour recommendations and booking status tracking features.</li>
+          <li>Improved booking efficiency by 50% through conversational automation.</li>
+        </ul>
+
+        <!-- Project 2 -->
+        <h4>Car Showroom Bot (june-July 2025)</h4>
+        <ul>
+          <li>Built a natural language-enabled chatbot for car discovery, comparisons, and dealer interactions.</li>
+          <li>Integrated live automobile APIs to fetch and display real-time inventory and specifications.</li>
+          <li>Implemented test drive scheduling, EMI calculator, and lead generation mechanisms.</li>
+          <li>Boosted customer engagement by 3x through AI-driven conversational UX.</li>
+        </ul>
+
+        <!-- Project 3 -->
+        <h4>Airport Services Bot (July-August 2025)</h4>
+        <ul>
+          <li>Engineered a robust WhatsApp chatbot using Flask and LangChain to provide real-time airport assistance.</li>
+          <li>Delivered instant flight status, terminal directions, and gate information by integrating aviation APIs.</li>
+          <li>Handled multilingual input and complex queries using custom LLM prompts and embeddings.</li>
+          <li>Reduced airport support ticket load by 40% through automation.</li>
+        </ul>
+
+        <div class="tech-stack">
+          <strong>Technologies Used:</strong> Python, Flask,FastAPI, REST APIs, WhatsApp Cloud API, LangChain, OpenAI (LLMs), PostgreSQL,MongoDB, AWS, Meta, Redis
         </div>
-    </section>
+      </div>
+
+    </div>
+  </div>
+</section>
+      
+              
 
     <!-- Contact Section -->
     <section id="contact" class="fade-in">
@@ -1050,7 +1296,7 @@
                     </div>
                 </div>
                 <div class="contact-form glass">
-                    <form action="https://formsubmit.co/bhanukiksar2002@gmail.com" method="POST" id="contactForm" autocomplete="on" aria-label="Contact form">
+                    <form action="https://formsubmit.co/bhanukiksar2002@gmail.com" method="POST" id="contactForm" autocomplete="on" aria-label="Contact form" enctype="multipart/form-data">
                         <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Send a Message</h3>
                         <!-- Hidden inputs for formsubmit -->
                         <input type="hidden" name="_captcha" value="false" />
@@ -1072,6 +1318,22 @@
                         <div class="form-group">
                             <label for="message">Your Message</label>
                             <textarea id="message" name="message" rows="5" placeholder="Type your message here..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="resume">Resume (Optional)</label>
+                            <div class="file-upload-container" id="fileUploadContainer">
+                                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" onchange="handleFileSelect(this)">
+                                <div class="file-upload-icon">
+                                    <i class="fas fa-file-upload"></i>
+                                </div>
+                                <div class="file-upload-text">
+                                    Drop your resume here or click to browse
+                                </div>
+                                <div class="file-name" id="fileName"></div>
+                                <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem;">
+                                    Accepted formats: PDF, DOC, DOCX (Max size: 10MB)
+                                </small>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
                     </form>
@@ -1307,6 +1569,60 @@
             const titleElement = document.getElementById('heroTitle');
             const originalText = titleElement.textContent;
             typeWriter(titleElement, originalText, 150);
+        });
+
+        // File Upload handling
+        function handleFileSelect(input) {
+            const fileName = document.getElementById('fileName');
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                fileName.textContent = file.name;
+                fileName.style.display = 'block';
+                
+                // Animate the upload icon
+                const icon = input.parentElement.querySelector('.file-upload-icon i');
+                icon.className = 'fas fa-check';
+                setTimeout(() => {
+                    icon.className = 'fas fa-file-upload';
+                }, 2000);
+            }
+        }
+
+        // Add drag and drop functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileUploadContainer = document.getElementById('fileUploadContainer');
+            if (fileUploadContainer) {
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    fileUploadContainer.addEventListener(eventName, preventDefaults, false);
+                });
+
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    fileUploadContainer.addEventListener(eventName, () => {
+                        fileUploadContainer.style.borderColor = '#06b6d4';
+                        fileUploadContainer.style.transform = 'scale(1.02)';
+                    }, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    fileUploadContainer.addEventListener(eventName, () => {
+                        fileUploadContainer.style.borderColor = '';
+                        fileUploadContainer.style.transform = '';
+                    }, false);
+                });
+
+                fileUploadContainer.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    const fileInput = document.getElementById('resume');
+                    fileInput.files = files;
+                    handleFileSelect(fileInput);
+                }, false);
+            }
         });
 
         // Particles effect for background
